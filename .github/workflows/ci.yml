@@ -32,7 +32,7 @@ env:
 jobs:
   changes:
     name: Detect Changes
-    runs-on: ubuntu-latest
+    runs-on: magnon-enterprise-runners
     outputs:
       rust: ${{ steps.filter.outputs.rust }}
       nix: ${{ steps.filter.outputs.nix }}
@@ -93,7 +93,7 @@ jobs:
     name: Nix
     needs: changes
     if: needs.changes.outputs.rust == 'true' || needs.changes.outputs.nix == 'true' || github.event_name == 'push'
-    runs-on: ubuntu-latest
+    runs-on: magnon-enterprise-runners
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - name: Install Nix
@@ -109,7 +109,7 @@ jobs:
     name: Lint
     needs: changes
     if: needs.changes.outputs.rust == 'true' || github.event_name == 'push'
-    runs-on: ubuntu-latest
+    runs-on: magnon-enterprise-runners
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
@@ -153,7 +153,7 @@ jobs:
     name: Verify Skills
     needs: changes
     if: needs.changes.outputs.rust == 'true' || github.event_name == 'push'
-    runs-on: ubuntu-latest
+    runs-on: magnon-enterprise-runners
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
@@ -193,7 +193,7 @@ jobs:
     name: Build (Linux x86_64)
     needs: changes
     if: needs.changes.outputs.rust == 'true' || github.event_name == 'push'
-    runs-on: ubuntu-latest
+    runs-on: magnon-enterprise-runners
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
@@ -302,7 +302,7 @@ jobs:
     name: API Smoketest
     needs: build-linux
     if: github.event.pull_request.head.repo.full_name == github.repository || github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: magnon-enterprise-runners
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
