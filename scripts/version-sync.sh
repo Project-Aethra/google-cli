@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Copyright (c) Magnon Compute Corporation. All rights reserved.
 # Syncs the version from package.json into Cargo.toml and updates Cargo.lock.
 # Used by changesets/action as a custom version command.
 set -euo pipefail

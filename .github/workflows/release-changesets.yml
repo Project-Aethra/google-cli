@@ -14,6 +14,9 @@
 
 name: Release (Changeset)
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
   push:
@@ -28,6 +31,7 @@ jobs:
   release:
     name: Release
     runs-on: magnon-enterprise-runners
+    timeout-minutes: 60
     permissions:
       contents: write
       pull-requests: write

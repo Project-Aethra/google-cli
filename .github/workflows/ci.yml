@@ -14,6 +14,9 @@
 
 name: CI
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [main]
@@ -33,6 +36,7 @@ jobs:
   changes:
     name: Detect Changes
     runs-on: magnon-enterprise-runners
+    timeout-minutes: 30
     outputs:
       rust: ${{ steps.filter.outputs.rust }}
       nix: ${{ steps.filter.outputs.nix }}
@@ -56,10 +60,12 @@ jobs:
     name: Test
     needs: changes
     if: needs.changes.outputs.rust == 'true' || github.event_name == 'push'
-    runs-on: ${{ matrix.os }}
+    runs-on: magnon-enterprise-runners
+    timeout-minutes: 15
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [magnon-enterprise-runners]
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
@@ -94,6 +100,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.rust == 'true' || needs.changes.outputs.nix == 'true' || github.event_name == 'push'
     runs-on: magnon-enterprise-runners
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - name: Install Nix
@@ -110,6 +117,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.rust == 'true' || github.event_name == 'push'
     runs-on: magnon-enterprise-runners
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
@@ -154,6 +162,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.rust == 'true' || github.event_name == 'push'
     runs-on: magnon-enterprise-runners
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
@@ -194,6 +203,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.rust == 'true' || github.event_name == 'push'
     runs-on: magnon-enterprise-runners
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
@@ -239,17 +249,19 @@ jobs:
     if: |
       always() && !cancelled() && !failure()
       && (needs.changes.outputs.rust == 'true' || github.event_name == 'push')
-    runs-on: ${{ matrix.os }}
+    runs-on: magnon-enterprise-runners
+    timeout-minutes: 60
     strategy:
+      fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: magnon-enterprise-runners
             target: aarch64-unknown-linux-gnu
-          - os: macos-latest
+          - os: magnon-enterprise-runners
             target: x86_64-apple-darwin
-          - os: macos-latest
+          - os: magnon-enterprise-runners
             target: aarch64-apple-darwin
-          - os: windows-latest
+          - os: magnon-enterprise-runners
             target: x86_64-pc-windows-msvc
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -303,6 +315,7 @@ jobs:
     needs: build-linux
     if: github.event.pull_request.head.repo.full_name == github.repository || github.event_name != 'pull_request'
     runs-on: magnon-enterprise-runners
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 

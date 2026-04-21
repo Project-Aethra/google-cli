@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Copyright (c) Magnon Compute Corporation. All rights reserved.
 # Creates and pushes a git tag based on the version in package.json.
 # Idempotent — skips if the tag already exists.
 # Used by changesets/action as the publish command.

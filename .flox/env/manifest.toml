@@ -1,0 +1,13 @@
+# Copyright (c) Magnon Compute Corporation. All rights reserved.
+version = 1
+
+[install]
+nodejs_20.pkg-path = "nodejs_20"
+git.pkg-path = "git"
+jq.pkg-path = "jq"
+
+[vars]
+NODE_VERSION = "20"
+
+[options]
+systems = ["aarch64-darwin", "x86_64-darwin", "aarch64-linux", "x86_64-linux"]
